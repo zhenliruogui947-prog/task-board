@@ -38,16 +38,56 @@ git push origin <ブランチ名>
 - 不要な抽象化・将来のための設計は避け、現在のタスクに必要な最小限の実装にする
 - セキュリティ: ユーザー入力は必ずバリデーション・サニタイズする（XSS, SQL インジェクション等）
 
-### ファイル・ディレクトリ構成（予定）
+### ファイル・ディレクトリ構成
 
 ```
 task-boad/
-├── src/          # アプリケーションソースコード
-├── public/       # 静的ファイル
-├── tests/        # テストコード
-└── CLAUDE.md
+├── src/
+│   ├── App.jsx       # メインコンポーネント（タスクボード全体）
+│   ├── App.css       # グローバルスタイル
+│   └── main.jsx      # エントリポイント
+├── .github/
+│   └── workflows/
+│       └── deploy.yml  # GitHub Pages 自動デプロイ
+├── index.html
+├── vite.config.js
+└── package.json
 ```
+
+### 技術スタック
+
+| 種別 | 技術 |
+|------|------|
+| UI ライブラリ | React 18 |
+| ビルドツール | Vite 5 |
+| スタイリング | Plain CSS（CSS Modules 不使用） |
+| 状態管理 | React `useState` / `useEffect` |
+| データ永続化 | localStorage |
+| デプロイ | GitHub Actions + GitHub Pages |
+
+### コンポーネント命名規約
+
+- **ファイル名**: PascalCase（例: `App.jsx`, `TaskList.jsx`）
+- **コンポーネント関数名**: PascalCase でファイル名と一致させる
+- **CSS クラス名**: kebab-case（例: `.task-item`, `.add-btn`）
+- **イベントハンドラ**: `handle` プレフィックス（例: `handleKeyDown`, `handleSubmit`）
+- **state 更新関数の引数**: `prev` を使う（例: `setTasks(prev => ...)`）
+
+## デプロイ先
+
+**GitHub Pages**: https://zhenliruogui947-prog.github.io/task-board/
+
+`main` ブランチへのプッシュで GitHub Actions が自動ビルド・デプロイを実行する。
 
 ## よく使うコマンド
 
-プロジェクト構成が決まり次第、ビルド・テスト・起動コマンドをここに追記する。
+```powershell
+# 開発サーバー起動
+npm run dev
+
+# 本番ビルド
+npm run build
+
+# ビルド結果をローカルで確認
+npm run preview
+```
